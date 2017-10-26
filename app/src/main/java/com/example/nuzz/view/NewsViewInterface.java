@@ -12,6 +12,6 @@ import rx.Observable;
 public interface NewsViewInterface {
     void onGetNewsComplete();
     void onGetNewsError(String message);
-    void onGetNewsSuccess(Response<NewsResponse> result);
+    void onGetNewsSuccess(NewsResponse result);
     Observable<NewsResponse> getNews(String query);
 }

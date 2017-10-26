@@ -20,5 +20,10 @@
         android:layout_below="@id/queryEditText"
         android:layout_centerHorizontal="true"
         android:text="Get News"/>
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/submitButton"
+        android:id="@+id/newsListRecycler"></android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>

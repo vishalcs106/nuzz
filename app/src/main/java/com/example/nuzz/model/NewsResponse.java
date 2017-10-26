@@ -114,7 +114,7 @@ public class NewsResponse {
 
 
 
-    private class Hit {
+    public class Hit {
 
         @SerializedName("created_at")
         @Expose
@@ -389,7 +389,7 @@ public class NewsResponse {
 
 
 
-    public class Url {
+    private class Url {
 
         @SerializedName("value")
         @Expose

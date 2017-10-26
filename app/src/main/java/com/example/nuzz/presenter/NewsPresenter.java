@@ -18,17 +18,17 @@ public class NewsPresenter extends BasePresenter implements Observer<NewsRespons
 
     @Override
     public void onCompleted() {
-
+        viewInterface.onGetNewsComplete();
     }
 
     @Override
     public void onError(Throwable e) {
-
+        viewInterface.onGetNewsError(e.getMessage());
     }
 
     @Override
     public void onNext(NewsResponse newsResponse) {
-
+        viewInterface.onGetNewsSuccess(newsResponse);
     }
 
     public void getNews(String query){
