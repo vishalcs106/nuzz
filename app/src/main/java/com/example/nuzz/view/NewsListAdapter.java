@@ -58,18 +58,13 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ViewHo
         return hits.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView titleTextView, authorTextView, pointsTextView;
         public ViewHolder(View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.titleTextView);
             authorTextView = itemView.findViewById(R.id.authorTextView);
             pointsTextView = itemView.findViewById(R.id.pointsTextView);
-        }
-
-        @Override
-        public void onClick(View v) {
-
         }
     }
 }
