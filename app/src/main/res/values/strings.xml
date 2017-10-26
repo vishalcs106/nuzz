@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Nuzz</string>
+    <string name="invalid_url">Invalid URL</string>
+    <string name="query_hint">Enter a category. Ex:Sports</string>
+    <string name="get_news">Get News</string>
+    <string name="getting_news">Getting News</string>
 </resources>

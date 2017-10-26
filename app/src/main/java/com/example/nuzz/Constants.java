@@ -6,4 +6,5 @@ package com.example.nuzz;
 
 public class Constants {
     public static final String BASE_URL = "https://hn.algolia.com";
+    public static final String KEY_NEWS_URL = "newsUrl";
 }

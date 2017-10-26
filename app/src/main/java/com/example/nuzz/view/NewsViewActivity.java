@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.webkit.WebView;
 import android.widget.Toast;
 
+import com.example.nuzz.Constants;
 import com.example.nuzz.R;
 
 public class NewsViewActivity extends AppCompatActivity {
@@ -17,16 +18,16 @@ public class NewsViewActivity extends AppCompatActivity {
         WebView webView = (WebView) findViewById(R.id.webView);
         webView.getSettings().setJavaScriptEnabled(true);
         Intent intent = getIntent();
-        String url = intent.getStringExtra("newsUrl");
+        String url = intent.getStringExtra(Constants.KEY_NEWS_URL);
         if(url != null) {
             if (!url.equals(""))
                 webView.loadUrl(url);
             else {
-                Toast.makeText(this, "Invalid Url", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.invalid_url, Toast.LENGTH_LONG).show();
                 finish();
             }
         }else {
-            Toast.makeText(this, "Invalid Url", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.invalid_url, Toast.LENGTH_LONG).show();
             finish();
         }
     }

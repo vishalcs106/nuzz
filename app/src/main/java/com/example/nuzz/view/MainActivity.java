@@ -1,5 +1,6 @@
 package com.example.nuzz.view;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,7 +19,6 @@ import com.example.nuzz.presenter.NewsPresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Response;
 import rx.Observable;
 
 public class MainActivity extends AppCompatActivity implements NewsViewInterface{
@@ -30,12 +30,14 @@ public class MainActivity extends AppCompatActivity implements NewsViewInterface
     RecyclerView newsListRecycler;
     NewsPresenter newsPresenter;
     Context mContext;
+    ProgressDialog progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mContext = this;
         ButterKnife.bind(this);
+        progressBar = new ProgressDialog(this);
         newsListRecycler.setLayoutManager(new LinearLayoutManager(this));
         newsPresenter = new NewsPresenter(MainActivity.this);
         getNewsButton.setOnClickListener(new View.OnClickListener() {
@@ -44,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements NewsViewInterface
                 if(queryEditText.getText().toString().equals("")){
                     Toast.makeText(v.getContext(), "Please enter a query", Toast.LENGTH_LONG).show();
                 } else {
+                    progressBar.setMessage(getResources().getString(R.string.getting_news));
+                    progressBar.show();
                     newsPresenter.getNews(queryEditText.getText().toString());
                 }
             }
@@ -52,17 +56,24 @@ public class MainActivity extends AppCompatActivity implements NewsViewInterface
 
     @Override
     public void onGetNewsComplete() {
-        System.out.print("");
+        try{
+            progressBar.dismiss();
+        }catch (Exception e){
+
+        }
     }
 
     @Override
     public void onGetNewsError(String message) {
-        System.out.print("");
+        try{
+            progressBar.dismiss();
+        }catch (Exception e){
+
+        }
     }
 
     @Override
     public void onGetNewsSuccess(NewsResponse result) {
-        System.out.print("");
         NewsListAdapter adapter = new NewsListAdapter(result.getHits());
         newsListRecycler.setAdapter(adapter);
     }

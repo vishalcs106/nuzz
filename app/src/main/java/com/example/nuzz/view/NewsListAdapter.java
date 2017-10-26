@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.nuzz.Constants;
 import com.example.nuzz.R;
 import com.example.nuzz.model.NewsResponse;
 
@@ -43,7 +44,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), NewsViewActivity.class);
-                intent.putExtra("newsUrl", hit.getUrl());
+                intent.putExtra(Constants.KEY_NEWS_URL, hit.getUrl());
                 (v.getContext()).startActivity(intent);
             }
         });
