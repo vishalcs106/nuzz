@@ -11,15 +11,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.nuzz.App;
+
 import com.example.nuzz.R;
-import com.example.nuzz.model.NewsApi;
+
 import com.example.nuzz.model.NewsResponse;
 import com.example.nuzz.presenter.NewsPresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.Observable;
+
 
 public class MainActivity extends AppCompatActivity implements NewsViewInterface{
     @BindView(R.id.queryEditText)

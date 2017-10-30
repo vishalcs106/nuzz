@@ -1,10 +1,6 @@
 package com.example.nuzz.presenter;
 
-import rx.Observable;
-import rx.Observer;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -45,9 +41,4 @@ public abstract class BasePresenter implements Presenter {
             mCompositeSubscription.clear();
         }
     }
-
-    protected <F> void subscribe(Observable<F> observable, Observer<F> observer) {
-
-    }
-
 }
