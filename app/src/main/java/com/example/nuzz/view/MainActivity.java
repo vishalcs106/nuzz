@@ -31,14 +31,19 @@ public class MainActivity extends AppCompatActivity implements NewsViewInterface
     NewsPresenter newsPresenter;
     Context mContext;
     ProgressDialog progressBar;
+    int PAGE_SIZE = 20;
+    boolean isLoading = false;
+    boolean isLastPage = false;
+    int currentPage = 0;
+    NewsListAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mContext = this;
         ButterKnife.bind(this);
-        progressBar = new ProgressDialog(this);
-        newsListRecycler.setLayoutManager(new LinearLayoutManager(this));
+        initView();
+
         newsPresenter = new NewsPresenter(MainActivity.this);
         getNewsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,16 +51,54 @@ public class MainActivity extends AppCompatActivity implements NewsViewInterface
                 if(queryEditText.getText().toString().equals("")){
                     Toast.makeText(v.getContext(), "Please enter a query", Toast.LENGTH_LONG).show();
                 } else {
-                    progressBar.setMessage(getResources().getString(R.string.getting_news));
                     progressBar.show();
-                    newsPresenter.getNews(queryEditText.getText().toString());
+                    adapter = null;
+                    newsPresenter.getNews(queryEditText.getText().toString(), currentPage);
                 }
             }
         });
     }
 
+    private void initView() {
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int visibleItemCount = layoutManager.getChildCount();
+                int totalItemCount = layoutManager.getItemCount();
+                int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+
+                if (!isLoading && !isLastPage) {
+                    if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                            && firstVisibleItemPosition >= 0
+                            && totalItemCount >= PAGE_SIZE) {
+                        loadMoreItems();
+                    }
+                }
+            }
+        };
+        progressBar = new ProgressDialog(this);
+        progressBar.setMessage(getResources().getString(R.string.getting_news));
+        newsListRecycler.setLayoutManager(layoutManager);
+        newsListRecycler.addOnScrollListener(recyclerViewOnScrollListener);
+    }
+
+    private void loadMoreItems() {
+        progressBar.show();
+        isLoading = true;
+        currentPage += 1;
+        newsPresenter.getNews(queryEditText.getText().toString(), currentPage);
+    }
+
     @Override
     public void onGetNewsComplete() {
+        isLoading = false;
         try{
             progressBar.dismiss();
         }catch (Exception e){
@@ -65,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements NewsViewInterface
 
     @Override
     public void onGetNewsError(String message) {
+        isLoading = false;
         try{
             progressBar.dismiss();
         }catch (Exception e){
@@ -74,8 +118,15 @@ public class MainActivity extends AppCompatActivity implements NewsViewInterface
 
     @Override
     public void onGetNewsSuccess(NewsResponse result) {
-        NewsListAdapter adapter = new NewsListAdapter(result.getHits());
-        newsListRecycler.setAdapter(adapter);
+        if(result.getNbPages() == currentPage)
+            isLastPage = true;
+        if(adapter == null) {
+            adapter = new NewsListAdapter(result.getHits());
+            newsListRecycler.setAdapter(adapter);
+        } else {
+            adapter.hits.addAll(result.getHits());
+            adapter.notifyDataSetChanged();
+        }
     }
 
 }

@@ -36,9 +36,9 @@ public class NewsPresenter extends BasePresenter implements Observer<NewsRespons
         viewInterface.onGetNewsSuccess(newsResponse);
     }
 
-    public void getNews(String query){
+    public void getNews(String query, int pageNumber){
         unSubscribeAll();
-        Subscription subscription = App.getInstance().mRetrofit.create(NewsApi.class).getNews(query)
+        Subscription subscription = App.getInstance().mRetrofit.create(NewsApi.class).getNews(query, pageNumber)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.computation())

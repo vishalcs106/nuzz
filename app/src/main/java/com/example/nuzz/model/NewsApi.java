@@ -11,5 +11,5 @@ import rx.Observer;
 
 public interface NewsApi {
     @GET("/api/v1/search")
-    Observable<NewsResponse> getNews(@Query("query") String query);
+    Observable<NewsResponse> getNews(@Query("query") String query, @Query("page") int pageNumber);
 }
