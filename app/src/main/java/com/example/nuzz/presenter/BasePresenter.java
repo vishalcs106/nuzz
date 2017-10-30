@@ -27,7 +27,7 @@ public abstract class BasePresenter implements Presenter {
         configureSubscription();
     }
 
-    private CompositeSubscription configureSubscription() {
+    protected CompositeSubscription configureSubscription() {
         if (mCompositeSubscription == null || mCompositeSubscription.isUnsubscribed()) {
             mCompositeSubscription = new CompositeSubscription();
         }
@@ -47,12 +47,7 @@ public abstract class BasePresenter implements Presenter {
     }
 
     protected <F> void subscribe(Observable<F> observable, Observer<F> observer) {
-        Subscription subscription = observable
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .unsubscribeOn(Schedulers.computation())
-                .subscribe(observer);
-        configureSubscription().add(subscription);
+
     }
 
 }

@@ -13,5 +13,4 @@ public interface NewsViewInterface {
     void onGetNewsComplete();
     void onGetNewsError(String message);
     void onGetNewsSuccess(NewsResponse result);
-    Observable<NewsResponse> getNews(String query);
 }

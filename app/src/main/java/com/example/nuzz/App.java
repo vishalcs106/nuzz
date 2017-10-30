@@ -29,7 +29,7 @@ public class App extends Application {
                         .build())
                 .baseUrl(Constants.BASE_URL).build();
     }
-    public static synchronized App getInstance() {
+    public static App getInstance() {
         return mInstance;
     }
 }

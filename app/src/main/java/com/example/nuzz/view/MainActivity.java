@@ -78,8 +78,4 @@ public class MainActivity extends AppCompatActivity implements NewsViewInterface
         newsListRecycler.setAdapter(adapter);
     }
 
-    @Override
-    public Observable<NewsResponse> getNews(String query) {
-        return ((App) getApplication()).mRetrofit.create(NewsApi.class).getNews(query);
-    }
 }
