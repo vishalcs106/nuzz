@@ -2,6 +2,7 @@ package com.example.nuzz.view;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,7 +15,9 @@ import android.widget.Toast;
 
 import com.example.nuzz.R;
 
+import com.example.nuzz.databinding.ActivityMainBinding;
 import com.example.nuzz.model.NewsResponse;
+import com.example.nuzz.model.SearchQuery;
 import com.example.nuzz.presenter.NewsPresenter;
 
 import butterknife.BindView;
@@ -22,8 +25,8 @@ import butterknife.ButterKnife;
 
 
 public class MainActivity extends AppCompatActivity implements NewsViewInterface{
-    @BindView(R.id.queryEditText)
-    EditText queryEditText;
+    //@BindView(R.id.queryEditText)
+    //EditText queryEditText;
     @BindView(R.id.submitButton)
     Button getNewsButton;
     @BindView(R.id.newsListRecycler)
@@ -36,10 +39,13 @@ public class MainActivity extends AppCompatActivity implements NewsViewInterface
     boolean isLastPage = false;
     int currentPage = 0;
     NewsListAdapter adapter;
+    SearchQuery query;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        query = new SearchQuery("");
+        binding.setQuery(query);
         mContext = this;
         ButterKnife.bind(this);
         initView();
@@ -48,12 +54,12 @@ public class MainActivity extends AppCompatActivity implements NewsViewInterface
         getNewsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(queryEditText.getText().toString().equals("")){
+                if(query.getQuery().equals("")){
                     Toast.makeText(v.getContext(), "Please enter a query", Toast.LENGTH_LONG).show();
                 } else {
                     progressBar.show();
                     adapter = null;
-                    newsPresenter.getNews(queryEditText.getText().toString(), currentPage);
+                    newsPresenter.getNews(query.getQuery(), currentPage);
                 }
             }
         });
@@ -93,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements NewsViewInterface
         progressBar.show();
         isLoading = true;
         currentPage += 1;
-        newsPresenter.getNews(queryEditText.getText().toString(), currentPage);
+        newsPresenter.getNews(query.getQuery(), currentPage);
     }
 
     @Override
